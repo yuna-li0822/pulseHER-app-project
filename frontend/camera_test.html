@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Camera Test - PulseHER</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding:18px; background:#fff7fb; }
+    .container { max-width:820px; margin:0 auto; }
+    .video-box { position:relative; width:480px; height:360px; background:#000; border-radius:8px; overflow:hidden; }
+    video, canvas { width:100%; height:100%; display:block; }
+    .controls { margin-top:12px; display:flex; gap:8px; align-items:center; }
+    .status { margin-top:12px; padding:10px; background:#fff; border-radius:8px; border:1px solid #eee; }
+    .log { margin-top:8px; font-family:monospace; font-size:12px; color:#0a0; background:#001; padding:8px; border-radius:6px; max-height:140px; overflow:auto; }
+    button { padding:8px 12px; border-radius:6px; border:none; background:#e91e63; color:#fff; cursor:pointer; }
+    button.secondary { background:#999; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Camera Isolation Test</h2>
+    <p>This page only tests camera capture + simple avgRed sampling. Serve from localhost (python -m http.server) and open via http://localhost:PORT/camera_test.html</p>
+
+    <div class="video-box">
+      <video id="video" playsinline muted></video>
+      <canvas id="canvas" style="position:absolute;left:0;top:0;pointer-events:none"></canvas>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn">Start Camera</button>
+      <button id="playBtn" class="secondary">Tap Play</button>
+      <button id="snapBtn" class="secondary">Snapshot</button>
+      <button id="stopBtn" class="secondary">Stop</button>
+      <label style="margin-left:12px">Bypass brightness: <input id="bypass" type="checkbox" /></label>
+    </div>
+
+    <div class="status">
+      <div><strong>Status:</strong> <span id="status">idle</span></div>
+      <div><strong>Devices:</strong> <span id="devices">-</span></div>
+      <div><strong>avgRed:</strong> <span id="avgRed">-</span></div>
+      <div><strong>Frames:</strong> <span id="frames">0</span></div>
+    </div>
+
+    <div id="snapshotArea" style="margin-top:12px"></div>
+
+    <div class="log" id="log" style="display:none"></div>
+  </div>
+
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const startBtn = document.getElementById('startBtn');
+  const playBtn = document.getElementById('playBtn');
+  const snapBtn = document.getElementById('snapBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const statusEl = document.getElementById('status');
+  const devicesEl = document.getElementById('devices');
+  const avgRedEl = document.getElementById('avgRed');
+  const framesEl = document.getElementById('frames');
+  const bypassEl = document.getElementById('bypass');
+  const snapshotArea = document.getElementById('snapshotArea');
+  const logEl = document.getElementById('log');
+
+  let stream = null;
+  let raf = null;
+  let frameCount = 0;
+
+  function appendLog(msg) {
+    try {
+      logEl.style.display = 'block';
+      const t = new Date().toLocaleTimeString();
+      logEl.innerText = t + ' - ' + msg + '\n' + logEl.innerText;
+    } catch (e) {}
+  }
+
+  async function listDevices() {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const vids = devices.filter(d => d.kind === 'videoinput');
+      devicesEl.innerText = vids.length + (vids.length? (' ('+ (vids[0].label || 'camera') +')') : '');
+    } catch (e) {
+      devicesEl.innerText = 'error';
+      appendLog('enumerateDevices failed: ' + e);
+    }
+  }
+
+  async function startCamera() {
+    try {
+      statusEl.innerText = 'requesting camera';
+      stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480, facingMode: 'user' } });
+      video.srcObject = stream;
+      await video.play();
+      statusEl.innerText = 'playing';
+      appendLog('video.play() resolved; videoWidth=' + video.videoWidth + ' videoHeight=' + video.videoHeight);
+      listDevices();
+      startLoop();
+    } catch (err) {
+      statusEl.innerText = 'camera access error: ' + (err && err.name ? err.name : String(err));
+      appendLog('camera error: ' + err);
+    }
+  }
+
+  function stopCamera() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach(t => t.stop());
+      stream = null;
+    }
+    try { video.srcObject = null; } catch (e) {}
+    statusEl.innerText = 'stopped';
+  }
+
+  function startLoop() {
+    const ctx = canvas.getContext('2d');
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    frameCount = 0;
+
+    function step() {
+      try {
+        if (!video || video.readyState < 2) {
+          statusEl.innerText = 'waiting for frames';
+          raf = requestAnimationFrame(step);
+          return;
+        }
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // sample center region
+        const cx = Math.floor(canvas.width/2);
+        const cy = Math.floor(canvas.height/2);
+        const sampleSize = Math.max(8, Math.floor(Math.min(50, Math.min(canvas.width, canvas.height) * 0.12)));
+        const sx = Math.max(0, Math.min(canvas.width-1, Math.floor(cx - sampleSize/2)));
+        const sy = Math.max(0, Math.min(canvas.height-1, Math.floor(cy - sampleSize/2)));
+        const sw = Math.max(1, Math.min(sampleSize, canvas.width - sx));
+        const sh = Math.max(1, Math.min(sampleSize, canvas.height - sy));
+        let imageData = null;
+        try { imageData = ctx.getImageData(sx, sy, sw, sh); } catch (e) { appendLog('getImageData failed: ' + e); }
+        let avgRed = 0;
+        if (imageData) {
+          for (let i=0;i<imageData.data.length;i+=4) avgRed += imageData.data[i];
+          avgRed = avgRed / Math.max(1, imageData.data.length/4);
+        }
+
+        // draw a white rect for sample box
+        ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 2; ctx.strokeRect(sx, sy, sw, sh); ctx.restore();
+
+        frameCount++;
+        framesEl.innerText = frameCount;
+        avgRedEl.innerText = isNaN(avgRed) ? 'null' : avgRed.toFixed(1);
+
+        // filter unless bypass checked
+        if (bypassEl.checked || (avgRed >= 30 && avgRed <= 245)) {
+          // feed display or logs if needed
+        }
+
+        raf = requestAnimationFrame(step);
+      } catch (e) {
+        appendLog('frame loop error: ' + e);
+        raf = requestAnimationFrame(step);
+      }
+    }
+    raf = requestAnimationFrame(step);
+  }
+
+  startBtn.addEventListener('click', () => startCamera());
+  playBtn.addEventListener('click', async () => { try { await video.play(); statusEl.innerText = 'play() OK'; appendLog('user play()'); } catch(e){ appendLog('play failed: ' + e); statusEl.innerText = 'play failed'; } });
+  stopBtn.addEventListener('click', () => stopCamera());
+  snapBtn.addEventListener('click', () => {
+    try {
+      const snap = canvas.toDataURL('image/png');
+      snapshotArea.innerHTML = '<h4>Snapshot</h4><img src="'+snap+'" style="max-width:100%"/>';
+      appendLog('snapshot taken');
+    } catch (e) { appendLog('snapshot failed: ' + e); }
+  });
+
+  // quick auto-list devices on load
+  if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) listDevices();
+</script>
+</body>
+</html>

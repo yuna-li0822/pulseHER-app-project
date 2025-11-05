@@ -1,0 +1,53 @@
+{
+  "name": "pulseher-frontend",
+  "version": "1.0.0",
+  "description": "PulseHER - Heart Health App for Women",
+  "private": true,
+  "homepage": "https://pulseher.app",
+  "keywords": [
+    "heart-health",
+    "women-health",
+    "pulse-monitoring",
+    "react",
+    "healthcare"
+  ],
+  "author": "Yuna",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "web": "npm start",
+    "dev": "npm start"
+  },
+  "dependencies": {
+    "firebase": "^10.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.30.1",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^3.5.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

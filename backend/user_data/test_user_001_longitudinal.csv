@@ -1,0 +1,4 @@
+timestamp,hr,rmssd,sdnn,pnn50,lf_hf_ratio,stiffness_index,reflection_index,dicrotic_notch_ratio,pulse_amplitude,signal_quality,cycle_phase,risk_score,alert_flag
+2025-10-06 20:31:37.604177,72,35,50,12,1.8,9.2,45,0.25,0.85,95,follicular,4,0
+2025-10-10 20:31:37.604177,75,32,48,10,2.1,9.8,47,0.28,0.82,92,luteal,5,0
+2025-10-13 20:31:37.604177,68,38,52,15,1.5,8.5,42,0.22,0.88,97,follicular,3,0

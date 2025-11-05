@@ -1,0 +1,110 @@
+/* CameraPPG component styles - keep this file purely CSS so imports work correctly */
+
+.camera-ppg {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.ppg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ppg-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.ppg-video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ppg-video {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+/* hidden canvas used for frame processing */
+.hidden-canvas {
+  display: none;
+}
+
+.ppg-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.ppg-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ppg-btn.stop {
+  background: #d32f2f;
+}
+
+.ppg-quality {
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.04);
+}
+
+.ppg-graph {
+  margin: 8px 0;
+  background: #fafafa;
+  padding: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ppg-metrics {
+  display: flex;
+  gap: 16px;
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.ppg-error {
+  color: #b00020;
+  background: #fff0f0;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.ppg-logs {
+  margin-top: 10px;
+  background: #f4f6f8;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.ppg-logs pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "pulseher-mobile",
+    "slug": "pulseher-mobile",
+    "version": "1.0.0",
+    "platforms": ["ios", "android"],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to measure pulse signals via light reflection.",
+        "NSPhotoLibraryAddUsageDescription": "Used to save session images if you choose to save them."
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "pulseher-mobile",
+  "version": "1.0.0",
+  "description": "PulseHER Mobile (Expo)",
+  "main": "App.js",
+  "scripts": {
+    "start": "expo start",
+    "web": "expo start --web",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "expo": "^54.0.0"
+  },
+  "dependencies": {
+    "expo-camera": "^15.0.0",
+    "expo-image-manipulator": "^14.0.7",
+    "expo-permissions": "^14.4.0",
+    "react-dom": "^19.2.0",
+    "react-native-web": "^0.21.2"
+  }
+}

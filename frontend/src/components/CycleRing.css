@@ -1,0 +1,394 @@
+/* Cycle Ring Component Styles - Blueprint Implementation */
+
+.cycle-ring-container {
+  background: linear-gradient(135deg, #fff8fd 0%, #ffeef7 100%);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+  margin: 20px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cycle-ring-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cycle-ring-header h3 {
+  color: #d63384;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.current-phase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.phase-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.phase-name {
+  font-weight: 600;
+  color: #495057;
+  font-size: 16px;
+}
+
+.cycle-day {
+  background: rgba(214, 51, 132, 0.1);
+  color: #d63384;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ring-svg-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.cycle-ring-svg {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Day markers */
+.day-marker {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.day-marker:hover {
+  r: 7;
+}
+
+.day-marker.current-day {
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.day-marker.has-data {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.day-marker.hovered {
+  stroke: #fff;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.day-marker.selected {
+  stroke: #d63384;
+  stroke-width: 3;
+}
+
+/* Labels */
+.day-label {
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.phase-label {
+  font-family: 'Segoe UI', sans-serif;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+/* HRV indicators */
+.hrv-indicator {
+  animation: fade-in 0.5s ease;
+  pointer-events: none;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 0.7; }
+}
+
+/* Phase segments */
+.phase-segment {
+  transition: opacity 0.3s ease;
+}
+
+.phase-segment:hover {
+  opacity: 0.8;
+}
+
+/* Day detail popup */
+.day-detail-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  animation: popup-enter 0.3s ease;
+}
+
+@keyframes popup-enter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.day-detail {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(214, 51, 132, 0.3);
+  border-radius: 15px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  min-width: 250px;
+  max-width: 300px;
+  backdrop-filter: blur(10px);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(214, 51, 132, 0.2);
+}
+
+.detail-header h4 {
+  color: #d63384;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: rgba(214, 51, 132, 0.1);
+  color: #d63384;
+}
+
+.detail-content {
+  gap: 15px;
+}
+
+.phase-info {
+  margin-bottom: 15px;
+}
+
+.phase-info .phase-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.session-data {
+  gap: 10px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+}
+
+.metric-row:last-child {
+  border-bottom: none;
+}
+
+.metric-row span:first-child {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.metric-row span:last-child {
+  color: #495057;
+  font-weight: 600;
+}
+
+.no-data {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.no-data p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Legend */
+.cycle-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Expected changes */
+.expected-changes {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid rgba(214, 51, 132, 0.2);
+}
+
+.expected-changes h4 {
+  color: #d63384;
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.expected-changes-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.expected-changes-list li {
+  color: #6c757d;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cycle-ring-container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .ring-svg-container svg {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .current-phase {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .cycle-legend {
+    gap: 15px;
+  }
+  
+  .legend-item {
+    font-size: 11px;
+  }
+  
+  .day-detail {
+    max-width: 90vw;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ring-svg-container svg {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .cycle-legend {
+    justify-content: space-around;
+    gap: 10px;
+  }
+  
+  .expected-changes {
+    padding: 12px;
+  }
+  
+  .expected-changes h4 {
+    font-size: 13px;
+  }
+  
+  .expected-changes-list li {
+    font-size: 12px;
+  }
+}
+
+/* Accessibility */
+.day-marker:focus {
+  outline: 2px solid #d63384;
+  outline-offset: 2px;
+}
+
+.close-button:focus {
+  outline: 2px solid #d63384;
+  outline-offset: 1px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cycle-ring-container {
+    border: 2px solid #000;
+  }
+  
+  .day-marker {
+    stroke: #000;
+    stroke-width: 1;
+  }
+  
+  .phase-segment {
+    opacity: 1;
+  }
+}
