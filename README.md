@@ -118,14 +118,6 @@ The AI model analyzes multiple health factors:
 - `POST /api/ai-analysis` - Get AI insights for metrics
 - `POST /api/predict` - ML model risk prediction
 
-## App Screens
-
-1. **Home**: Overview dashboard and quick actions
-2. **Stats**: Detailed heart metrics and trends
-3. **AI Assistant**: Interactive health advice
-4. **3D Visualizer**: Anatomical heart models
-5. **Resources**: Educational content and links
-
 ## Development
 
 ### Adding New Features
