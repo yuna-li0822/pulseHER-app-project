@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 💖 PulseHER - AI-Powered Heart Health Monitoring for Women
 
 An intelligent heart health monitoring application that combines React frontend with Python ML backend for personalized cardiovascular insights.
@@ -186,3 +187,6 @@ For issues and questions:
 # pulseHER-app-project
 PulseHER is a women-centered mobile app that bridges the gender gap in cardiovascular care by integrating real-time PPG pulse analysis with female-specific physiological insights.
 >>>>>>> 88bfe319c020014247cc0c6278c639e0b3436de3
+=======
+
+>>>>>>> 38d1fd84a5076062de0963500ffaf76823e8ad0d
