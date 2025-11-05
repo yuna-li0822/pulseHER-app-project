@@ -4,7 +4,7 @@
 
 An intelligent heart health monitoring application that combines React frontend with Python ML backend for personalized cardiovascular insights.
 
-## 📱 Features
+## Features
 
 - **Real-time Heart Monitoring**: Track BPM, blood pressure, stress levels
 - **AI-Powered Analysis**: Machine learning insights and recommendations
@@ -12,7 +12,7 @@ An intelligent heart health monitoring application that combines React frontend 
 - **Cross-Platform**: Works on iOS, Android, and Web
 - **Cloud Database**: Firebase integration for data persistence
 
-## 🏗️ Clean Project Structure (Reorganized)
+## Clean Project Structure 
 
 ```
 PulseHER/
@@ -49,7 +49,7 @@ PulseHER/
 └── README.md              ← This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Backend Setup (Python)
 
@@ -77,7 +77,7 @@ npm start      # Start Expo dev server for mobile
 3. Replace `database/firebase.json` with your credentials
 4. Enable Firestore database in your Firebase console
 
-## 🎯 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React Native** - Cross-platform mobile development
@@ -95,7 +95,7 @@ npm start      # Start Expo dev server for mobile
 - **Firebase Firestore** - NoSQL cloud database
 - **Real-time sync** - Automatic data synchronization
 
-## 📊 ML Model Features
+## ML Model Features
 
 The AI model analyzes multiple health factors:
 - Age and demographic data
@@ -108,7 +108,7 @@ The AI model analyzes multiple health factors:
 
 **Output**: Risk assessment (Low/Medium/High) with confidence scores
 
-## 🔗 API Endpoints
+## API Endpoints
 
 ### Heart Data
 - `GET /api/heart-data` - Retrieve user's heart data
@@ -118,7 +118,7 @@ The AI model analyzes multiple health factors:
 - `POST /api/ai-analysis` - Get AI insights for metrics
 - `POST /api/predict` - ML model risk prediction
 
-## 📱 App Screens
+## App Screens
 
 1. **Home**: Overview dashboard and quick actions
 2. **Stats**: Detailed heart metrics and trends
@@ -126,7 +126,7 @@ The AI model analyzes multiple health factors:
 4. **3D Visualizer**: Anatomical heart models
 5. **Resources**: Educational content and links
 
-## 🛠️ Development
+## Development
 
 ### Adding New Features
 1. Frontend components go in `frontend/src/components/`
@@ -139,7 +139,7 @@ Create `.env` files for sensitive configuration:
 - API keys
 - Database URLs
 
-## 🚀 Deployment
+## Deployment
 
 ### Frontend (Web)
 ```bash
@@ -161,7 +161,7 @@ expo build:android  # Android APK
 expo build:ios      # iOS app
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -169,11 +169,11 @@ expo build:ios      # iOS app
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+## License
 
 MIT License - see LICENSE file for details
 
-## 🆘 Support
+## Support
 
 For issues and questions:
 - Create an issue on GitHub
@@ -182,7 +182,7 @@ For issues and questions:
 
 ---
 
-**PulseHer** - Empowering women's heart health through AI 💖�
+**PulseHer** - Empowering women's heart health through AI 
 =======
 # pulseHER-app-project
 PulseHER is a women-centered mobile app that bridges the gender gap in cardiovascular care by integrating real-time PPG pulse analysis with female-specific physiological insights.
